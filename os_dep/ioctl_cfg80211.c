@@ -356,7 +356,7 @@ static u64 rtw_get_systime_us(void)
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0))
 	ktime_t ts;
 	ts = ktime_get_boottime();
-	return do_div(ts, 1000);	
+	return do_div(ts, 1000);
 #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 39))
 	struct timespec ts;
 	get_monotonic_boottime(&ts);
@@ -649,7 +649,7 @@ void rtw_cfg80211_ibss_indicate_connect(_adapter *padapter)
 		}
 
 		if (!rtw_cfg80211_check_bss(padapter))
-			DBG_871X_LEVEL(_drv_always_, FUNC_ADPT_FMT" BSS not found !!\n", FUNC_ADPT_ARG(padapter));
+			DBG_871X_LEVEL(_drv_notice_, FUNC_ADPT_FMT" BSS not found !!\n", FUNC_ADPT_ARG(padapter));
 	}
 	//notify cfg80211 that device joined an IBSS
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 15, 0))
@@ -725,7 +725,7 @@ void rtw_cfg80211_indicate_connect(_adapter *padapter)
 
 check_bss:
 	if (!rtw_cfg80211_check_bss(padapter))
-		DBG_871X_LEVEL(_drv_always_, FUNC_ADPT_FMT" BSS not found !!\n", FUNC_ADPT_ARG(padapter));
+		DBG_871X_LEVEL(_drv_notice_, FUNC_ADPT_FMT" BSS not found !!\n", FUNC_ADPT_ARG(padapter));
 
 	if (rtw_to_roam(padapter) > 0) {
 		#if LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 39) || defined(COMPAT_KERNEL_RELEASE)

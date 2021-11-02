@@ -22,7 +22,7 @@
 #include <drv_types.h>
 #include <rtl8723b_hal.h>
 
-u32 GlobalDebugLevel = _drv_emerg_;
+u32 GlobalDebugLevel = _drv_warning_;
 
 #ifdef CONFIG_DEBUG_RTL871X
 

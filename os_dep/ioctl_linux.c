@@ -228,7 +228,7 @@ void rtw_indicate_wx_assoc_event(_adapter *padapter)
 	else
 		_rtw_memcpy(wrqu.ap_addr.sa_data, pmlmepriv->cur_network.network.MacAddress, ETH_ALEN);
 
-	DBG_871X_LEVEL(_drv_always_, "assoc success\n");
+	DBG_871X_LEVEL(_drv_notice_, "assoc success\n");
 #ifndef CONFIG_IOCTL_CFG80211
 	wireless_send_event(padapter->pnetdev, SIOCGIWAP, &wrqu, NULL);
 #endif
@@ -244,7 +244,7 @@ void rtw_indicate_wx_disassoc_event(_adapter *padapter)
 	_rtw_memset(wrqu.ap_addr.sa_data, 0, ETH_ALEN);
 
 #ifndef CONFIG_IOCTL_CFG80211
-	DBG_871X_LEVEL(_drv_always_, "indicate disassoc\n");
+	DBG_871X_LEVEL(_drv_notice_, "indicate disassoc\n");
 	wireless_send_event(padapter->pnetdev, SIOCGIWAP, &wrqu, NULL);
 #endif
 }
@@ -7316,7 +7316,7 @@ out:
 static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param, u32 param_len)
 {
 	int ret = 0;
-	u32 wep_key_idx, wep_key_len,wep_total_len;
+	u32 wep_key_idx, wep_key_len,wep_total_len=0;
 	NDIS_802_11_WEP	 *pwep = NULL;
 	struct sta_info *psta = NULL, *pbcmc_sta = NULL;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
@@ -8553,7 +8553,7 @@ static int rtw_wowlan_ctrl(struct net_device *dev,
 	//mutex_lock(&ioctl_mutex);
 _rtw_wowlan_ctrl_exit_free:
 	DBG_871X("-rtw_wowlan_ctrl( subcode = %d)\n", poidparam.subcode);
-	DBG_871X_LEVEL(_drv_always_, "%s in %d ms\n", __func__,
+	DBG_871X_LEVEL(_drv_notice_, "%s in %d ms\n", __func__,
 			rtw_get_passing_time_ms(start_time));
 _rtw_wowlan_ctrl_exit:
 	return ret;
@@ -8649,7 +8649,7 @@ static int rtw_ap_wowlan_ctrl(struct net_device *dev,
 	//mutex_lock(&ioctl_mutex);
 _rtw_ap_wowlan_ctrl_exit_free:
 	DBG_871X("-rtw_ap_wowlan_ctrl( subcode = %d)\n", poidparam.subcode);
-	DBG_871X_LEVEL(_drv_always_, "%s in %d ms\n", __func__,
+	DBG_871X_LEVEL(_drv_notice_, "%s in %d ms\n", __func__,
 			rtw_get_passing_time_ms(start_time));
 _rtw_ap_wowlan_ctrl_exit:
 	return ret;

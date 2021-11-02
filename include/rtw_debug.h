@@ -25,7 +25,7 @@
 #define _drv_emerg_			2
 #define _drv_alert_			3
 #define _drv_crit_			4
-#define _drv_err_			5
+#define _drv_err_			  5
 #define	_drv_warning_		6
 #define _drv_notice_		7
 #define _drv_info_			8
@@ -154,6 +154,8 @@
 	#define MSG_8192C(x, ...) do {} while(0)
 	#define DBG_8192C(x,...) do {} while(0)
 	#define DBG_871X_LEVEL(x,...) do {} while(0)
+	#define DBG_871X_SEL_NL(x,...) do {} while(0);
+	#define DBG_871X_SEL(x,...) do {} while(0);
 
 #undef _dbgdump
 #undef _seqdump
@@ -163,10 +165,12 @@
 	extern u64 GlobalDebugComponents;
 #endif
 
-	#define _dbgdump printk
-	#define _seqdump seq_printf
+#define _dbgdump printk
+#define _seqdump seq_printf
 
-#define DRIVER_PREFIX "RTL871X: "
+#define RTW_DBGDUMP NULL /* 'stream' for _dbgdump */
+
+#define DRIVER_PREFIX "rtl8723bu: "
 
 #if defined(_dbgdump)
 
@@ -175,9 +179,6 @@
 #define DBG_871X_LEVEL(level, fmt, arg...)     \
 	do {\
 		if (level <= GlobalDebugLevel) {\
-			if (level <= _drv_err_ && level > _drv_always_) \
-				_dbgdump(DRIVER_PREFIX"ERROR " fmt, ##arg);\
-			else \
 				_dbgdump(DRIVER_PREFIX fmt, ##arg);\
 		}\
 	}while(0)
@@ -187,39 +188,43 @@
 #define _DBG_871X_LEVEL(level, fmt, arg...)	   \
 	do {\
 		if (level <= GlobalDebugLevel) {\
-			if (level <= _drv_err_ && level > _drv_always_) \
-				_dbgdump("ERROR " fmt, ##arg);\
-			else \
 				_dbgdump(fmt, ##arg);\
 		}\
 	}while(0)
 
-#if defined(_seqdump)
-#define RTW_DBGDUMP NULL /* 'stream' for _dbgdump */
-
 /* dump message to selected 'stream' */
+#undef DBG_871X_SEL
 #define DBG_871X_SEL(sel, fmt, arg...) \
 	do {\
 		if (sel == RTW_DBGDUMP)\
-			_DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
+			_DBG_871X_LEVEL(_drv_notice_, fmt, ##arg); \
 		else {\
 			_seqdump(sel, fmt, ##arg) /*rtw_warn_on(1)*/; \
 		} \
 	}while(0)
 
 /* dump message to selected 'stream' with driver-defined prefix */
+#undef DBG_871X_SEL_NL
 #define DBG_871X_SEL_NL(sel, fmt, arg...) \
 	do {\
 		if (sel == RTW_DBGDUMP)\
-			DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
+			DBG_871X_LEVEL(_drv_notice_, fmt, ##arg); \
 		else {\
 			_seqdump(sel, fmt, ##arg) /*rtw_warn_on(1)*/; \
 		} \
 	}while(0)
 
-#endif /* defined(_seqdump) */
+#elif defined(_seqdump)
 
-#endif /* defined(_dbgdump) */
+/* dump message to selected 'stream' */
+#undef DBG_871X_SEL
+#define DBG_871X_SEL(sel, fmt, arg...) _seqdump(sel, fmt, ##arg); \
+
+/* dump message to selected 'stream' with driver-defined prefix */
+#undef DBG_871X_SEL_NL
+#define DBG_871X_SEL_NL(sel, fmt, arg...) _seqdump(sel, fmt, ##arg); \
+
+#endif
 
 #ifdef CONFIG_DEBUG
 #if	defined(_dbgdump)

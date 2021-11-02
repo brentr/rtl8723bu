@@ -387,16 +387,55 @@ extern void rtw_softap_lock_suspend(void);
 extern void rtw_softap_unlock_suspend(void);
 #endif
 
-extern void ATOMIC_SET(ATOMIC_T *v, int i);
-extern int ATOMIC_READ(ATOMIC_T *v);
-extern void ATOMIC_ADD(ATOMIC_T *v, int i);
-extern void ATOMIC_SUB(ATOMIC_T *v, int i);
-extern void ATOMIC_INC(ATOMIC_T *v);
-extern void ATOMIC_DEC(ATOMIC_T *v);
-extern int ATOMIC_ADD_RETURN(ATOMIC_T *v, int i);
-extern int ATOMIC_SUB_RETURN(ATOMIC_T *v, int i);
-extern int ATOMIC_INC_RETURN(ATOMIC_T *v);
-extern int ATOMIC_DEC_RETURN(ATOMIC_T *v);
+
+static inline void ATOMIC_SET(ATOMIC_T *v, int i)
+{
+	atomic_set(v,i);
+}
+
+static inline int ATOMIC_READ(ATOMIC_T *v)
+{
+	return atomic_read(v);
+}
+
+static inline void ATOMIC_ADD(ATOMIC_T *v, int i)
+{
+	atomic_add(i,v);
+}
+static inline void ATOMIC_SUB(ATOMIC_T *v, int i)
+{
+	atomic_sub(i,v);
+}
+
+static inline void ATOMIC_INC(ATOMIC_T *v)
+{
+	atomic_inc(v);
+}
+
+static inline void ATOMIC_DEC(ATOMIC_T *v)
+{
+	atomic_dec(v);
+}
+
+static inline int ATOMIC_ADD_RETURN(ATOMIC_T *v, int i)
+{
+	return atomic_add_return(i,v);
+}
+
+static inline int ATOMIC_SUB_RETURN(ATOMIC_T *v, int i)
+{
+	return atomic_sub_return(i,v);
+}
+
+static inline int ATOMIC_INC_RETURN(ATOMIC_T *v)
+{
+	return atomic_inc_return(v);
+}
+
+static inline int ATOMIC_DEC_RETURN(ATOMIC_T *v)
+{
+	return atomic_dec_return(v);
+}
 
 //File operation APIs, just for linux now
 extern int rtw_is_file_readable(char *path);

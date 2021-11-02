@@ -2274,7 +2274,7 @@ Hal_EfuseParseMACAddr_8723BU(
 	}
 //	NicIFSetMacAddress(pAdapter, pAdapter->PermanentAddress);
 
-	RT_TRACE(_module_hci_hal_init_c_, _drv_notice_,
+	RT_TRACE(_module_hci_hal_init_c_, _drv_info_,
 		 ("Hal_EfuseParseMACAddr_8723BU: Permanent Address=%02x:%02x:%02x:%02x:%02x:%02x\n",
 		  pEEPROM->mac_addr[0], pEEPROM->mac_addr[1],
 		  pEEPROM->mac_addr[2], pEEPROM->mac_addr[3],

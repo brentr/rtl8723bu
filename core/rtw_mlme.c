@@ -1605,7 +1605,7 @@ void rtw_indicate_disconnect( _adapter *padapter )
 
 }
 
-inline void rtw_indicate_scan_done( _adapter *padapter, bool aborted)
+void rtw_indicate_scan_done( _adapter *padapter, bool aborted)
 {
 	DBG_871X(FUNC_ADPT_FMT"\n", FUNC_ADPT_ARG(padapter));
 
@@ -1935,7 +1935,7 @@ void rtw_joinbss_event_prehandle(_adapter *adapter, u8 *pbuf)
 			}
 			else
 			{
-				DBG_871X_LEVEL(_drv_always_, "Can't find ptarget_wlan when joinbss_event callback\n");
+				DBG_871X_LEVEL(_drv_notice_, "Can't find ptarget_wlan when joinbss_event callback\n");
 				SPIN_UNLOCK_BH(pmlmepriv->scanned_queue.lock, &irqL);
 				goto ignore_joinbss_callback;
 			}
@@ -2699,7 +2699,7 @@ inline bool rtw_is_scan_deny(_adapter *adapter)
 	return (ATOMIC_READ(&mlmepriv->set_scan_deny) != 0) ? _TRUE : _FALSE;
 }
 
-inline void rtw_clear_scan_deny(_adapter *adapter)
+void rtw_clear_scan_deny(_adapter *adapter)
 {
 	struct mlme_priv *mlmepriv = &adapter->mlmepriv;
 	ATOMIC_SET(&mlmepriv->set_scan_deny, 0);
@@ -4019,20 +4019,20 @@ void rtw_append_exented_cap(_adapter *padapter, u8 *out_ie, uint *pout_len)
 #endif
 
 #ifdef CONFIG_LAYER2_ROAMING
-inline void rtw_set_to_roam(_adapter *adapter, u8 to_roam)
+void rtw_set_to_roam(_adapter *adapter, u8 to_roam)
 {
 	if (to_roam == 0)
 		adapter->mlmepriv.to_join = _FALSE;
 	adapter->mlmepriv.to_roam = to_roam;
 }
 
-inline u8 rtw_dec_to_roam(_adapter *adapter)
+u8 rtw_dec_to_roam(_adapter *adapter)
 {
 	adapter->mlmepriv.to_roam--;
 	return adapter->mlmepriv.to_roam;
 }
 
-inline u8 rtw_to_roam(_adapter *adapter)
+u8 rtw_to_roam(_adapter *adapter)
 {
 	return adapter->mlmepriv.to_roam;
 }
