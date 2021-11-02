@@ -4,7 +4,7 @@ FW_DIR	:= $(INSTALL_FW_PATH)/rtl_bt
 DEPMOD  = /sbin/depmod
 
 EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
-EXTRA_CFLAGS += -O1
+EXTRA_CFLAGS += -Os
 #EXTRA_CFLAGS += -O3
 #EXTRA_CFLAGS += -Wall
 #EXTRA_CFLAGS += -Wextra
@@ -18,7 +18,7 @@ EXTRA_CFLAGS += -Wno-unused-label
 EXTRA_CFLAGS += -Wno-unused-parameter
 EXTRA_CFLAGS += -Wno-unused-function
 EXTRA_CFLAGS += -Wno-unused
-EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
+#EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
 
 ccflags-y += -D__CHECK_ENDIAN__
 
@@ -26,7 +26,7 @@ ccflags-y += -D__CHECK_ENDIAN__
 
 EXTRA_CFLAGS += -g -I$(src)/include
 
-#EXTRA_LDFLAGS += --strip-debug
+EXTRA_LDFLAGS += --strip-debug
 
 CONFIG_AUTOCFG_CP = n
 
@@ -87,7 +87,7 @@ _HAL_INTFS_FILES :=	hal/hal_intf.o \
 			hal/hal_btcoex.o \
 			hal/hal_usb.o \
 			hal/hal_usb_led.o
-			
+
 _OUTSRC_FILES := hal/odm_debug.o	\
 		hal/odm_AntDiv.o\
 		hal/odm_interface.o\
@@ -102,7 +102,7 @@ _OUTSRC_FILES := hal/odm_debug.o	\
 		hal/odm_DynamicTxPower.o\
 		hal/odm_CfoTracking.o\
 		hal/odm_NoiseMonitor.o
-		
+
 EXTRA_CFLAGS += -I$(src)/platform
 _PLATFORM_FILES := platform/platform_ops.o
 
@@ -116,7 +116,7 @@ endif
 ########### HAL_RTL8723B #################################
 
 RTL871X = rtl8723b
-MODULE_NAME = 8723bu
+MODULE_NAME = rtl8723bu
 
 _HAL_INTFS_FILES += hal/HalPwrSeqCmd.o \
 					hal/Hal8723BPwrSeq.o\
@@ -128,13 +128,13 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)_hal_init.o \
 			hal/$(RTL871X)_dm.o \
 			hal/$(RTL871X)_rxdesc.o \
 			hal/$(RTL871X)_cmd.o \
-			
+
 
 _HAL_INTFS_FILES +=	\
 			hal/usb_halinit.o \
-			hal/rtl$(MODULE_NAME)_led.o \
-			hal/rtl$(MODULE_NAME)_xmit.o \
-			hal/rtl$(MODULE_NAME)_recv.o
+			hal/$(MODULE_NAME)_led.o \
+			hal/$(MODULE_NAME)_xmit.o \
+			hal/$(MODULE_NAME)_recv.o
 
 _HAL_INTFS_FILES += hal/usb_ops.o
 
@@ -147,8 +147,8 @@ _OUTSRC_FILES += hal/HalHWImg8723B_BB.o\
 			hal/odm_RTL8723B.o
 
 
-########### AUTO_CFG  #################################	
-		
+########### AUTO_CFG  #################################
+
 ifeq ($(CONFIG_AUTOCFG_CP), y)
 $(shell cp $(TopDIR)/autoconf_$(RTL871X)_usb_linux.h $(TopDIR)/include/autoconf.h)
 endif
@@ -317,7 +317,7 @@ $(MODULE_NAME)-$(CONFIG_INTEL_WIDI) += core/rtw_intel_widi.o
 
 $(MODULE_NAME)-$(CONFIG_WAPI_SUPPORT) += core/rtw_wapi.o	\
 					core/rtw_wapi_sms4.o
-					
+
 $(MODULE_NAME)-y += $(_OS_INTFS_FILES)
 $(MODULE_NAME)-y += $(_HAL_INTFS_FILES)
 $(MODULE_NAME)-y += $(_OUTSRC_FILES)
