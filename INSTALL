@@ -4,7 +4,7 @@ $ ltibMake
 
 To build rtl8723bu.ko, then:
 
-$ arm-none-linux-eabi-strip --strip-unneeded rtl8723bu.ko
+$ arm-none-linux-gnueabi-strip --strip-unneeded rtl8723bu.ko
 
 Beware that the above strip command
 leaves about 64KB of strange symbols in the resulting object file
