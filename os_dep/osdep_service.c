@@ -596,8 +596,18 @@ inline void rtw_lock_resume_scan_timeout(u32 timeout_ms)
 static int openFile(struct file **fpp, char *path, int flag, int mode)
 {
 	struct file *fp;
-
+#ifdef RTL8723B_DIR
+	size_t fullPathSize = sizeof(RTL8723B_DIR)+1+strlen(path);
+	char *fullPath = rtw_malloc(fullPathSize);
+	if (!fullPath)
+		return -ENOMEM;
+	strcpy(fullPath, RTL8723B_DIR "/");
+	strcat(fullPath, path);
+	fp=filp_open(fullPath, flag, mode);
+	rtw_mfree(fullPath, fullPathSize);
+#else
 	fp=filp_open(path, flag, mode);
+#endif
 	if(IS_ERR(fp)) {
 		*fpp=NULL;
 		return PTR_ERR(fp);

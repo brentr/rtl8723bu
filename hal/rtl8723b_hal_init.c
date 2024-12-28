@@ -427,11 +427,11 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter, BOOLEAN  bUsedWoWLANFw)
 #ifdef CONFIG_FILE_FWIMG
 #ifdef CONFIG_WOWLAN
 	if (bUsedWoWLANFw) {
-		fwfilepath = rtw_fw_wow_file_path;
+		fwfilepath = RTL8723B_FW_WW_IMG;
 	} else
 #endif // CONFIG_WOWLAN
 	{
-		fwfilepath = rtw_fw_file_path;
+		fwfilepath = RTL8723B_FW_IMG;
 	}
 #endif // CONFIG_FILE_FWIMG
 
@@ -452,10 +452,9 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter, BOOLEAN  bUsedWoWLANFw)
 	switch(pFirmware->eFWSource) {
 	case FW_SOURCE_IMG_FILE:
 #ifdef CONFIG_FILE_FWIMG
-		rtStatus = rtw_retrive_from_file(fwfilepath, FwBuffer,
+		rtStatus = rtw_retrive_from_file(fwfilepath, pFirmware->szFwBuffer,
 						 FW_8723B_SIZE);
 		pFirmware->ulFwLength = rtStatus>=0?rtStatus:0;
-		pFirmware->szFwBuffer = FwBuffer;
 #endif // CONFIG_FILE_FWIMG
 		break;
 
