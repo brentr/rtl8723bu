@@ -4133,7 +4133,7 @@ static struct sta_info *rtw_sta_info_get_by_idx(const int idx, struct sta_priv *
 	return psta;
 }
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 16, 0)) || \
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0)) || \
     (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 1, 0))
 static int	cfg80211_rtw_dump_station(struct wiphy *wiphy, struct net_device *ndev,
 			       int idx, u8 *mac, struct station_info *sinfo)
