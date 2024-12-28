@@ -29,13 +29,14 @@
 #define AUTOCONF_INCLUDED
 #define RTL871X_MODULE_NAME "rtl8723bu"
 #define DRV_NAME "rtl8723bu"
+#define RTL8723B_DIR "/lib/firmware/rtl8723bu"
 
 #define BT_30_SUPPORT 1
 
 #define CONFIG_IOCTL_CFG80211 1
 
 #ifdef CONFIG_IOCTL_CFG80211
-	//#define RTW_USE_CFG80211_STA_EVENT /* Indecate new sta asoc through cfg80211_new_sta */
+	#define RTW_USE_CFG80211_STA_EVENT /* Indicate new sta asoc through cfg80211_new_sta */
 	//#define CONFIG_CFG80211_FORCE_COMPATIBLE_2_6_37_UNDER
 	//#define CONFIG_DEBUG_CFG80211
 	//#define CONFIG_DRV_ISSUE_PROV_REQ // IOT FOR S2
@@ -142,7 +143,7 @@
 	//#define CONFIG_DBG_P2P
 
 	#define CONFIG_P2P_PS
-	//#define CONFIG_P2P_IPS
+	#define CONFIG_P2P_IPS
 	#define CONFIG_P2P_OP_CHK_SOCIAL_CH
 	#define CONFIG_CFG80211_ONECHANNEL_UNDER_CONCURRENT  //replace CONFIG_P2P_CHK_INVITE_CH_LIST flag
 	#define CONFIG_P2P_INVITE_IOT
