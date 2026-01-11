@@ -1,5 +1,6 @@
 INSTALL_FW_PATH = $(INSTALL_MOD_PATH)/lib/firmware
 FW_DIR	:= $(INSTALL_FW_PATH)/rtl_bt
+MODDESTDIR := kernel/drivers/net/wireless/
 
 DEPMOD  = /sbin/depmod
 
@@ -263,7 +264,6 @@ ARCH ?= $(SUBARCH)
 CROSS_COMPILE ?=
 KVER  := $(shell uname -r)
 KSRC := /lib/modules/$(KVER)/build
-MODDESTDIR := $(INSTALL_MOD_PATH)/lib/modules/$(KVER)/kernel/drivers/net/wireless/
 INSTALL_PREFIX :=
 endif
 
@@ -274,7 +274,6 @@ EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -Wno-error=date-time
 ARCH := arm
 KSRC ?= $(KERNEL_SRC)
-MODDESTDIR := kernel/drivers/net/wireless/
 LICENSE = "GPLv2"
 endif
 
@@ -336,8 +335,7 @@ modules:
 strip:
 	$(CROSS_COMPILE)strip $(MODULE_NAME).ko --strip-unneeded
 
-install:
-	install -p -m 644 -D $(MODULE_NAME).ko $(MODDESTDIR)$(MODULE_NAME).ko
+install: modules_install
 ifeq ($(INSTALL_MOD_PATH),)
 	$(DEPMOD) -a ${KVER}
 else
@@ -349,7 +347,7 @@ modules_install:
 	$(MAKE) INSTALL_MOD_DIR=$(MODDESTDIR) -C $(KSRC) M=$(shell pwd) modules_install
 
 uninstall:
-	rm -f $(MODDESTDIR)$(MODULE_NAME).ko
+	rm -f /lib/modules/$(KVER)/$(MODDESTDIR)$(MODULE_NAME).ko
 	$(DEPMOD) -a ${KVER}
 	rm -f $(FW_DIR)/rtl8723b_fw.bin
 
